@@ -14,8 +14,7 @@ body {
     height: 100%;
 }
 
-#top, #body, #footer { margin-left: 2em; margin-right: 2em; }
-
+#titlediv, #top, #body, #footer { margin-left: 2em; margin-right: 2em; }
 
 #header { margin-top: 10px; }
 h1 { margin: 0; }
@@ -37,10 +36,18 @@ h1 { margin: 0; }
     background: linear-gradient(to bottom, #acb, #ced);
 }
 .notloggedin { color: #666; font-style: italic; }
+#countdowndiv { position: absolute; top: 0; right: 0; padding-right: 1em; }
 #countdowndiv { text-align:right; vertical-align:top; }
 #countdown { margin-top: 0; font-size: 108%; }
 .cdnum { color: red; font-weight: bold; }
 .cunum { color: #0c0; font-weight: bold; }
+@media(max-width: 905px) {
+    .cdhidden { display: none; }
+}
+@media(max-width: 740px) {
+    #countdowndiv { display: none; }
+}
+
 .clear { clear: both; }
 
 #navbar {
@@ -48,7 +55,6 @@ h1 { margin: 0; }
     width:100%;
     background-color: #eee;
     background: linear-gradient(to bottom, #eee, #ddd);
-    border-radius: 0.7em 0 0 0;
 }
 
 #container {
@@ -114,8 +120,8 @@ a.nav:hover {
 }
 a.nav:active {color:#000000;}
 
-a.wikinav { border-radius: 0.7em 0 0 0; }
 a.wikinav:link, a.wikinav:visited, a.wikinav:active {
+    padding-left: 1.2em;
     background-color: #bcd;
     background: linear-gradient(to bottom, #cde, #abc);
 }

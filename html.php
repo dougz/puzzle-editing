@@ -57,34 +57,8 @@ if ($now > $hunt) {
 <body>
 <div id="container">
     <div id="header">
-        <div id="top">
-            <div id="countdowndiv">
-                <span id="countdown">
-                <?php
-                    if ($days !== 0) {
-                        $daypl = $days === 1 ? "" : "s";
-                        echo "<span class=\"$cdclass\">$days</span> day$daypl, ";
-                    }
-                    $hrpl =  $hrs  === 1 ? "" : "s";
-                    echo "<span class=\"$cdclass\">$hrs</span> hour$hrpl and ";
-                    $minpl = $mins === 1 ? "" : "s";
-                    echo "<span class=\"$cdclass\">$mins</span> minute$minpl $cdmsg";
-                ?>
-                </span>
-            </div>
-            <div id="titlediv">
-                <h1><?php echo fullTitle(); ?></h1>
-            </div>
-            <div id="logindiv">
-<?php if (isset($_SESSION['uid'])) {
-    echo 'Logged in as <strong>' . getUserUsername($_SESSION['uid']) . '</strong>';
-    echo '<a href="account.php"' . ($selnav == "account" ? ' class="accsel"' : "") . '>Your Account</a>';
-    if (MAILING_LISTS) { echo '<a href="mailinglists.php"' . ($selnav == "mailinglists" ? ' class="accsel"' : "") . '>Mailing Lists</a>'; }
-    if (!TRUST_REMOTE_USER) { echo '<a href="logout.php">Logout</a>'; }
-} else { ?>
-                <span class="notloggedin">Not logged in</span> <a href="login.php">Login</a>
-        <?php } ?>
-            </div>
+        <div id="titlediv">
+            <h1><?php echo fullTitle(); ?></h1>
         </div>
         <div id="navbar">
             <ul class="nav">
@@ -115,6 +89,32 @@ if (isset($_SESSION['uid'])) {
 }
 ?>
             </ul>
+        </div>
+        <div id="top">
+            <div id="countdowndiv">
+                <span id="countdown">
+                <?php
+                    if ($days !== 0) {
+                        $daypl = $days === 1 ? "" : "s";
+                        echo "<span class=\"$cdclass\">$days</span> day$daypl<span class=\"cdhidden\">, ";
+                    }
+                    $hrpl =  $hrs  === 1 ? "" : "s";
+                    echo "<span class=\"$cdclass\">$hrs</span> hour$hrpl and ";
+                    $minpl = $mins === 1 ? "" : "s";
+                    echo "<span class=\"$cdclass\">$mins</span> minute$minpl</span> $cdmsg";
+                ?>
+                </span>
+            </div>
+            <div id="logindiv">
+<?php if (isset($_SESSION['uid'])) {
+    echo 'Logged in as <strong>' . getUserUsername($_SESSION['uid']) . '</strong>';
+    echo '<a href="account.php"' . ($selnav == "account" ? ' class="accsel"' : "") . '>Your Account</a>';
+    if (MAILING_LISTS) { echo '<a href="mailinglists.php"' . ($selnav == "mailinglists" ? ' class="accsel"' : "") . '>Mailing Lists</a>'; }
+    if (!TRUST_REMOTE_USER) { echo '<a href="logout.php">Logout</a>'; }
+} else { ?>
+                <span class="notloggedin">Not logged in</span> <a href="login.php">Login</a>
+        <?php } ?>
+            </div>
         </div>
         <div class="clear"></div>
     </div>
