@@ -2,6 +2,61 @@
 require_once "html.php";
 require_once "config.php";
 
+// PHP 7 does not include the MySQL extension. Instead, the MySQLi extension is
+// included. Luckily, the API is very similar. These functions wrap the
+// mysqli_* functions to have the same API as the mysql_* functions so that the
+// rest of the code continues to work with any version of PHP.
+if (version_compare(phpversion(), '7.0.0') >= 0) {
+    function mysql_connect($server, $username, $password) {
+        return mysqli_connect($server, $username, $password);
+    }
+
+    function mysql_set_charset($charset) {
+        global $db;
+        return mysqli_set_charset($db, $charset);
+    }
+
+    function mysql_select_db($database_name, $db) {
+        return mysqli_select_db($db, $database_name);
+    }
+
+    function mysql_real_escape_string($escapestr) {
+        global $db;
+        return mysqli_real_escape_string($db, $escapestr);
+    }
+
+    function mysql_query($query) {
+        global $db;
+        return mysqli_query($db, $query);
+    }
+
+    function mysql_num_rows($result) {
+        return mysqli_num_rows($result);
+    }
+
+    function mysql_fetch_array($result) {
+        return mysqli_fetch_array($result);
+    }
+
+    function mysql_fetch_assoc($result) {
+        return mysqli_fetch_assoc($result);
+    }
+
+    function mysql_fetch_row($result) {
+        return mysqli_fetch_row($result);
+    }
+
+    function mysql_insert_id() {
+        global $db;
+        return mysqli_insert_id($db);
+    }
+
+    function mysql_error() {
+        global $db;
+        return mysqli_error($db);
+    }
+}
+
 // Connect to database
 if (($db = mysql_connect(DB_SERVER, DB_USER, DB_PASS)) == FALSE) {
     echo '<div class="errormsg">Could not connect to database server ' . DB_SERVER . '.</div>';
