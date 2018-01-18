@@ -34,6 +34,7 @@ function session_handler_write($id, $data) {
         mysql_real_escape_string($data),
         mysql_real_escape_string($data));
     query_db($sql);
+    return TRUE;
 }
 
 function session_handler_destroy($id) {
