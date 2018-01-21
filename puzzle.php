@@ -197,11 +197,9 @@ echo "</div>";
 
 // Display & add comments
 echo "<div class='comments'>";
-echo "<table>";
 displayComments($uid, $pid, $lastVisit);
 addCommentForm($uid, $pid);
 emailSubButton($uid, $pid);
-echo "</table>";
 echo "</div>";
 
 // End HTML
@@ -299,7 +297,7 @@ function editTitleSummaryDescription($uid, $pid, $title, $summary, $description)
         <p style="padding-top: 0.5em;">Title (NO SPOILERS): <input type="text" name="title" maxlength="255" class="longin" value="<?php echo htmlspecialchars($title); ?>" /></p>
         <p style="padding-top: 0.5em;">Summary (MINIMAL SPOILERS): <input type="text" name="summary" maxlength="255" class="longin" value="<?php echo htmlspecialchars($summary); ?>" /></p>
         <p style="padding-top: 0.5em;">Description (spoilers ok):</p>
-        <textarea style="width:50em; height: 25em;" name="description"><?php echo htmlspecialchars($description); ?></textarea>
+        <textarea class="desc" name="description"><?php echo htmlspecialchars($description); ?></textarea>
         <p style="padding-top: 0.5em;">
             <input type="submit" name="editTSD" class="okSubmit" value="Change" />
             <input type="submit" name="cancelTSD" value="Cancel" />
@@ -1171,12 +1169,12 @@ function displayComments($uid, $pid, $lastVisit) {
             $name = getUserName($user);
         }
         if ($lastVisit == NULL || strtotime($lastVisit) < strtotime($timestamp)) {
-            echo "<tr class='comment-new' id='comm$id'>";
+            echo "<div class='comment-new' id='comm$id'>";
         } else {
-            echo "<tr class='comment' id='comm$id'>";
+            echo "<div class='comment' id='comm$id'>";
         }
 
-        echo "<td class='$type" . "Comment'>";
+        echo "<div class='$type" . "Comment'>";
 
         if ($type == 'Testsolver') {
             if (canSeeTesters($uid, $pid)) {
@@ -1187,7 +1185,7 @@ function displayComments($uid, $pid, $lastVisit) {
             echo $name;
         }
         echo "<br />$timestamp<br />$type <small>(Comment #$id)</small>";
-        echo "<td class='$type" . "Comment'>";
+        echo "<div class='$type" . "Comment'>";
 
 // TODO: Is this really the best we can do? Markdown, anyone?
         $pcomment = preg_replace('#(\A|[^=\]\'"a-zA-Z0-9])(http[s]?://(.+?)/[^()<>\s]*)#i', '\\1<a href="\\2" target="_blank">\\2</a>', ($comment['comment']));
@@ -1195,8 +1193,8 @@ function displayComments($uid, $pid, $lastVisit) {
             $pcomment = str_replace("=\"uploads/", "=\"" . AWS_ENDPOINT . AWS_BUCKET . "/uploads/", $pcomment);
         }
         echo nl2br2($pcomment);
-        echo '</td>';
-        echo '</tr>';
+        echo '</div>';
+        echo '</div>';
     }
 }
 
@@ -1204,14 +1202,12 @@ function addCommentForm($uid, $pid) {
     if (canComment($uid, $pid)) {
 ?>
         <form action="form-submit.php" method="post">
-            <tr class="comment">
-                <td colspan="2">
+            <div class="comment">
                     <input type="hidden" name="pid" value="<?php echo $pid; ?>" />
                     <input type="hidden" name="uid" value="<?php echo $uid; ?>" />
-                    <textarea style="width:50em; height: 20em; margin-bottom: 5px;" name="comment" class="hi"></textarea><br />
+                    <textarea class="comment" name="comment" class="hi"></textarea><br />
                     <input type="submit" name="addcomment" value="Add Comment" class="okSubmit" />
-                </td>
-            </tr>
+            </div>
         </form>
 <?php
     }
@@ -1221,25 +1217,21 @@ function emailSubButton($uid, $pid) {
     if (isSubbedOnPuzzle($uid, $pid)) {
 ?>
         <form action="form-submit.php" method="post">
-            <tr class="comment">
-                <td>
+ 	    <div class="comment">
                     <input type="hidden" name="uid" value="<?php echo $uid; ?>" />
                     <input type="hidden" name="pid" value="<?php echo $pid; ?>" />
                     <input type="submit" name="emailUnsub" value="Unsubscribe from Comments" />
-                </td>
-            </tr>
+            </div>
         </form>
 <?php
     } else {
 ?>
         <form action="form-submit.php" method="post">
-            <tr class="comment">
-                <td>
+            <div class="comment">
                     <input type="hidden" name="uid" value="<?php echo $uid; ?>" />
                     <input type="hidden" name="pid" value="<?php echo $pid; ?>" />
                     <input type="submit" name="emailSub" value="Subscribe to Comments" />
-                </td>
-            </tr>
+            </div>
         </form>
 <?php
     }
