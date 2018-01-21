@@ -235,93 +235,44 @@ td.TestsolverComment { background-color: #FFFFFF; }
 td.TestingAdminComment { background-color: #B4E0E0; }
 td.FactcheckerComment { background-color: #B4D8C8; }
 
+.puzzle-stats-section { display: table; width: 100%; }
+.puzzle-stats-row { display: table-row; }
+.stats-block { display: table-cell; margin: 0; }
+
+@media(max-width: 920px) {
+.puzzle-stats-section { display: block; }
+.puzzle-stats-row { display: block; }
+.stats-block { display: inline-block; vertical-align: top; height: 20ex; margin-right: -4px;}
+}
+
+.stats-block td, .stats-block th {
+    border: none;
+    padding-bottom: 0.1em;
+    padding-top: 0.1em;
+}
+
 td.stats {
     padding: 0em 0em 0em 0em;
 }
 
-th.puzz-stats, td.puzz-stats {
+.puzz-stats {
     background-color: #E0B4BD;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
-th.approval-ed-stats, td.approval-ed-stats {
+.approval-ed-stats {
     background-color: #B4C1E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
-th.discussion-ed-stats, td.discussion-ed-stats {
+.discussion-ed-stats {
     background-color: #E4C4BA;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
-th.p-stats, td.p-stats {
+.p-stats {
     background-color: #E0E0B4;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
-th.t-stats, td.t-stats {
-    background-color: #B4E0E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-th.answer-stats, td.answer-stats {
+.answer-stats {
     background-color: #EFE0E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-
-th.complete-stats, td.complete-stats {
-    background-color: #B4C1E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.2em;
-}
-
-th.testing-stats, td.testing-stats {
-    background-color: #B4E0E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.2em;
-}
-
-th.writing-stats, td.writing-stats {
-    background-color: #E0E0B4;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-th.pending-stats, td.pending-stats {
-    background-color: #E0B4BD;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-th.dead-stats, td.dead-stats {
-    background-color: #EFEFEF;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-th.admin-stats, td.admin-stats {
-    background-color: #EFEFEF;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
 .team-updates {

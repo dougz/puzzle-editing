@@ -436,95 +436,96 @@ function displayPuzzleStats($uid) {
         $tester .= ' (+' . $userNumbers['doneTester'] . ' done)';
     }
 ?>
-    <table><tr>
-        <td class="puzz-stats">
-            <table>
-                <tr>
-                    <th class="puzz-stats" colspan="2"><?php echo $totalNumberOfPuzzles; ?> Total Live Puzzles/Ideas</th>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Discuss Ed</td>
-                    <td class="puzz-stats"><?php echo $editor; ?></td>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Approve Ed</td>
-                    <td class="puzz-stats"><?php echo $userNumbers['approver']; ?></td>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Author</td>
-                    <td class="puzz-stats"><?php echo $userNumbers['author']; ?></td>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Spoiled</td>
-                    <td class="puzz-stats"><?php echo $userNumbers['spoiled']; ?></td>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Tester</td>
-                    <td class="puzz-stats"><?php echo $tester; ?></td>
-                </tr>
-                <!--<tr>
-                        <td class="puzz-stats">Available To Edit</td>
-                        <td class="puzz-stats"><?php echo $userNumbers['available']; ?></td>
-                </tr>-->
-            </table>
-        </td>
-        <td class="discussion-ed-stats">
-            <table>
-                <tr>
-                    <th class="discussion-ed-stats" colspan="2">Discuss Eds</th>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">Zero</td>
-                    <td class="discussion-ed-stats"><?php echo $numberOfEditors['0']; ?></td>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">One</td>
-                    <td class="discussion-ed-stats"><?php echo $numberOfEditors['1']; ?></td>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">Two</td>
-                    <td class="discussion-ed-stats"><?php echo $numberOfEditors['2']; ?></td>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">Three</td>
-                    <td class="discussion-ed-stats"><?php echo $numberOfEditors['3']; ?></td>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">&gt;Three</td>
-                    <td class="discussion-ed-stats"><?php echo $moreThanThree; ?></td>
-                </tr>
-            </table>
-        </td>
+<div class="puzzle-stats-section">
+  <div class="puzzle-stats-row">
+   <div class="puzz-stats stats-block">
+       <table>
+           <tr>
+               <th class="puzz-stats" colspan="2"><?php echo $totalNumberOfPuzzles; ?> Total Live Puzzles/Ideas</th>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Discuss Ed</td>
+               <td class="puzz-stats"><?php echo $editor; ?></td>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Approve Ed</td>
+               <td class="puzz-stats"><?php echo $userNumbers['approver']; ?></td>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Author</td>
+               <td class="puzz-stats"><?php echo $userNumbers['author']; ?></td>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Spoiled</td>
+               <td class="puzz-stats"><?php echo $userNumbers['spoiled']; ?></td>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Tester</td>
+               <td class="puzz-stats"><?php echo $tester; ?></td>
+           </tr>
+           <!--<tr>
+               <td class="puzz-stats">Available To Edit</td>
+               <td class="puzz-stats"><?php echo $userNumbers['available']; ?></td>
+           </tr>-->
+       </table>
+   </div>
+   <div class="discussion-ed-stats stats-block">
+       <table>
+           <tr>
+               <th class="discussion-ed-stats" colspan="2">Discuss Eds</th>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">Zero</td>
+               <td class="discussion-ed-stats"><?php echo $numberOfEditors['0']; ?></td>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">One</td>
+               <td class="discussion-ed-stats"><?php echo $numberOfEditors['1']; ?></td>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">Two</td>
+               <td class="discussion-ed-stats"><?php echo $numberOfEditors['2']; ?></td>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">Three</td>
+               <td class="discussion-ed-stats"><?php echo $numberOfEditors['3']; ?></td>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">&gt;Three</td>
+               <td class="discussion-ed-stats"><?php echo $moreThanThree; ?></td>
+           </tr>
+       </table>
+   </div>
 <?php
     if (USING_APPROVERS) {
 ?>
-        <td class="approval-ed-stats">
-            <table>
-                <tr>
-                    <th class="approval-ed-stats" colspan="2">Approval Eds</th>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">Zero</td>
-                    <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['0']; ?></td>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">One</td>
-                    <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['1']; ?></td>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">Two</td>
-                    <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['2']; ?></td>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">Three</td>
-                    <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['3']; ?></td>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">&gt;Three</td>
-                    <td class="approval-ed-stats"><?php echo $moreThanThreeApproval; ?></td>
-                </tr>
-            </table>
-        </td>
+   <div class="approval-ed-stats stats-block">
+       <table>
+           <tr>
+               <th class="approval-ed-stats" colspan="2">Approval Eds</th>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">Zero</td>
+               <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['0']; ?></td>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">One</td>
+               <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['1']; ?></td>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">Two</td>
+               <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['2']; ?></td>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">Three</td>
+               <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['3']; ?></td>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">&gt;Three</td>
+               <td class="approval-ed-stats"><?php echo $moreThanThreeApproval; ?></td>
+           </tr>
+       </table>
+   </div>
 <?php
     }
 
@@ -542,11 +543,11 @@ function displayPuzzleStats($uid) {
         $statuses[] = $status;
     }
 ?>
-        <td class="p-stats">
-            <table>
-                <tr>
-                    <th class="p-stats" colspan="<?php echo $pstatusCol; ?>">Puzzle Status</th>
-                </tr>
+    <div class="p-stats stats-block">
+        <table>
+            <tr>
+                <th class="p-stats" colspan="<?php echo $pstatusCol; ?>">Puzzle Status</th>
+            </tr>
 <?php
     for ($row = 0; $row < $max_rows; $row++) {
         for ($col = 0; $col < ($pstatusCol / 2); $col++) {
@@ -579,27 +580,28 @@ function displayPuzzleStats($uid) {
         }
     }
 ?>
-            </table>
-        </td>
-        <td class="answer-stats">
-            <table>
-                <tr>
-                    <th class="answer-stats" colspan="2"> Answer Status</th>
-                </tr>
-                <tr>
-                    <td class="answer-stats"> Total Answers </td>
-                    <td class="answer-stats"> <?php echo numAnswers(); ?> </td>
-                </tr>
-                <tr>
-                    <td class="answer-stats"> Assigned </td>
-                    <td class="answer-stats"> <?php echo answersAssigned(); ?> </td>
-                </tr>
-                <tr>
-                    <td class="answer-stats"> Unassigned </td>
-                    <td class="answer-stats"> <?php echo (numAnswers() - answersAssigned()); ?> </td>
-                </tr>
-            </table>
-        </td>
-    </tr></table>
+        </table>
+    </div>
+    <div class="answer-stats stats-block">
+        <table>
+            <tr>
+                <th class="answer-stats" colspan="2"> Answer Status</th>
+            </tr>
+            <tr>
+                <td class="answer-stats"> Total Answers </td>
+                <td class="answer-stats"> <?php echo numAnswers(); ?> </td>
+            </tr>
+            <tr>
+                <td class="answer-stats"> Assigned </td>
+                <td class="answer-stats"> <?php echo answersAssigned(); ?> </td>
+            </tr>
+            <tr>
+                <td class="answer-stats"> Unassigned </td>
+                <td class="answer-stats"> <?php echo (numAnswers() - answersAssigned()); ?> </td>
+            </tr>
+        </table>
+    </div>
+  </div>
+</div>
 <?php
 }
