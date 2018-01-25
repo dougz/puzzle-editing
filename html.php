@@ -229,35 +229,35 @@ function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLin
     $deadstatusid = getDeadStatusId();
     $flaggedPuzzles = getFlaggedPuzzles($uid);
 ?>
-    <table class="tablesorter">
+    <table class="puzzidea tablesorter">
     <thead>
         <tr>
-            <th class="puzzidea">ID</th>
-            <?php if (USING_CODENAMES) {echo '<th class="puzzidea">Codename</th>';} ?>
-            <th class="puzzidea">Title</th>
-            <th class="puzzidea">Puzzle Status</th>
-            <th class="puzzidea">Round(s)</th>
-            <?php if ($showSummary) {echo '<th class="puzzidea">Summary</th>';} ?>
-            <?php if ($showEditorNotes) {echo '<th class="puzzidea">Editor Notes</th>';} ?>
-            <?php if ($showTags) {echo '<th class="puzzidea">Tags</th>';} ?>
-            <?php if ($showNotes) {echo '<th class="puzzidea">Status Notes</th>';} ?>
-            <?php if ($showNotes) {echo '<th class="puzzidea">Runtime Info</th>';} ?>
-            <?php if ($showNotes) {echo '<th class="puzzidea">Priority</th>';} ?>
-            <?php if ($showAnswer) {echo '<th class="puzzidea">Answer</th>';} ?>
-            <?php if (!$test) { echo '<th class="puzzidea">Last Commenter</th>';} ?>
-            <?php if (!$test) { echo '<th class="puzzidea">Last Comment</th>';}?>
-            <?php if (!$test){ echo '<th class="puzzidea">Last Status Change</th>';}?>
-            <?php if ($showAuthorsAndEditors) {echo '<th class="puzzidea">Authors</th>';} ?>
-            <?php if ($showAuthorsAndEditors) {echo '<th class="puzzidea">Discussion Editors</th>';} ?>
-            <?php if (MIN_EDITORS >= 0 && $showAuthorsAndEditors) {echo '<th class="puzzidea">D.Eds Needed</th>';} ?>
-            <?php if (USING_APPROVERS && $showAuthorsAndEditors) {echo '<th class="puzzidea">Approval Editors</th>';} ?>
-            <?php if ($showAuthorsAndEditors) {echo '<th class="puzzidea">Approvals</th>';} ?>
-            <?php if ($showNumTesters) {echo '<th class="puzzidea"># Testers</th>';} ?>
-            <?php if ($showCurrentPuzzleTesterCount) {echo '<th class="puzzidea"># Current Testers';} ?>
-            <?php if ($showTesters) {echo '<th class="puzzidea">Testers</th>';} ?>
-            <?php if ($showTesters) {echo '<th class="puzzidea">Last Test Report</th>';} ?>
-            <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {echo '<th class="puzzidea">Testsolve requests</th>';} ?>
-            <?php if ($showFinalLinks) {echo '<th class="puzzidea">Final Links</th>';} ?>
+            <th>ID</th>
+            <?php if (USING_CODENAMES) {echo '<th>Codename</th>';} ?>
+            <th>Title</th>
+            <th>Puzzle Status</th>
+            <th>Round(s)</th>
+            <?php if ($showSummary) {echo '<th>Summary</th>';} ?>
+            <?php if ($showEditorNotes) {echo '<th>Editor Notes</th>';} ?>
+            <?php if ($showTags) {echo '<th>Tags</th>';} ?>
+            <?php if ($showNotes) {echo '<th>Status Notes</th>';} ?>
+            <?php if ($showNotes) {echo '<th>Runtime Info</th>';} ?>
+            <?php if ($showNotes) {echo '<th>Priority</th>';} ?>
+            <?php if ($showAnswer) {echo '<th>Answer</th>';} ?>
+            <?php if (!$test) { echo '<th>Last Commenter</th>';} ?>
+            <?php if (!$test) { echo '<th>Last Comment</th>';}?>
+            <?php if (!$test){ echo '<th>Last Status Change</th>';}?>
+            <?php if ($showAuthorsAndEditors) {echo '<th>Authors</th>';} ?>
+            <?php if ($showAuthorsAndEditors) {echo '<th>Discussion Editors</th>';} ?>
+            <?php if (MIN_EDITORS >= 0 && $showAuthorsAndEditors) {echo '<th>D.Eds Needed</th>';} ?>
+            <?php if (USING_APPROVERS && $showAuthorsAndEditors) {echo '<th>Approval Editors</th>';} ?>
+            <?php if ($showAuthorsAndEditors) {echo '<th>Approvals</th>';} ?>
+            <?php if ($showNumTesters) {echo '<th># Testers</th>';} ?>
+            <?php if ($showCurrentPuzzleTesterCount) {echo '<th># Current Testers</th>';} ?>
+            <?php if ($showTesters) {echo '<th>Testers</th>';} ?>
+            <?php if ($showTesters) {echo '<th>Last Test Report</th>';} ?>
+            <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {echo '<th>Testsolve requests</th>';} ?>
+            <?php if ($showFinalLinks) {echo '<th>Final Links</th>';} ?>
         </tr>
     </thead>
     <tbody>
@@ -307,58 +307,58 @@ function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLin
         $flagged = in_array($pid, $flaggedPuzzles);
         $status = $puzzleInfo["pstatus"];
 
+        $puzzclass="puzz";
         if (($lastVisit == NULL || strtotime($lastVisit) < strtotime($lastComment)) || $test) {
-            echo '<tr class="puzz-new">';
+          $puzzclass = "puzz-new";
         } elseif ($flagged) {
-            echo '<tr class="puzz-flag">';
-        } else {
-            echo '<tr class="puzz">';
+          $puzzclass = "puzz-flag";
         }
+        echo "<tr class='$puzzclass'>";
 
         if ($test) {
-            echo "<td class='puzzidea'><a href='test.php?pid=$pid$addLinkArgs'>$pid</a></td>";
+            echo "<td><a href='test.php?pid=$pid$addLinkArgs'>$pid</a></td>";
         } else {
-            echo "<td class='puzzidea'><a href='puzzle.php?pid=$pid$addLinkArgs'>$pid</a></td>";
+            echo "<td><a href='puzzle.php?pid=$pid$addLinkArgs'>$pid</a></td>";
         }
 ?>
-        <?php if (USING_CODENAMES) {echo '<td class="puzzidea">' . $codename . '</th>';} ?>
-        <td class='puzzidea'><?php echo $title; ?></td>
-        <td class='puzzidea' data-sort-value='<?php echo $statusSort[$status] ?>'><?php echo $statuses[$status]; ?></td>
-        <td class='puzzidea'><?php echo implode(', ', array_map(function($r) {return $r['name'];}, $roundDict)); ?></td>
-        <?php if ($showSummary) {echo "<td class='puzzideasecure'>" . $puzzleInfo["summary"] . "</td>";} ?>
-        <?php if ($showEditorNotes) {echo "<td class='puzzideasecure'>" . $puzzleInfo["editor_notes"] . "</td>";} ?>
-        <?php if ($showTags) {echo "<td class='puzzidea'>" . $tags . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td class='puzzidea'>" . $puzzleInfo["notes"] . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td class='puzzidea'>" . $puzzleInfo["runtime_info"] . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td class='puzzidea'>" . getPriorityWord($puzzleInfo["priority"]) . "</td>";} ?>
+        <?php if (USING_CODENAMES) {echo '<td>' . $codename . '</td>';} ?>
+        <td><?php echo $title; ?></td>
+        <td data-sort-value='<?php echo $statusSort[$status] ?>'><?php echo $statuses[$status]; ?></td>
+        <td><?php echo implode(', ', array_map(function($r) {return $r['name'];}, $roundDict)); ?></td>
+        <?php if ($showSummary) {echo "<td class='secure'>" . $puzzleInfo["summary"] . "</td>";} ?>
+        <?php if ($showEditorNotes) {echo "<td class='secure'>" . $puzzleInfo["editor_notes"] . "</td>";} ?>
+        <?php if ($showTags) {echo "<td>" . $tags . "</td>";} ?>
+        <?php if ($showNotes) {echo "<td>" . $puzzleInfo["notes"] . "</td>";} ?>
+        <?php if ($showNotes) {echo "<td>" . $puzzleInfo["runtime_info"] . "</td>";} ?>
+        <?php if ($showNotes) {echo "<td>" . getPriorityWord($puzzleInfo["priority"]) . "</td>";} ?>
 <?php
         if ($showAnswer) {
             if (getAnswersForPuzzleAsList($pid) != "") {
-                echo "<td class='puzzideasecure'>";
+                echo "<td class='secure'>";
             } else {
-                echo "<td class='puzzidea'>";
+                echo "<td>";
             }
             echo getAnswersForPuzzleAsList($pid) . "</td>";
         } ?>
-        <?php if (!$test) {echo "<td class='puzzidea'>$lastCommenter</td>";} ?>
-        <?php if (!$test) {echo "<td class='puzzidea'>$lastComment</td>";} ?>
-        <?php if (!$test) {echo "<td class='puzzidea'>" . getLastStatusChangeDate($pid). "</td>";} ?>
-        <?php if ($showAuthorsAndEditors) {echo "<td class='puzzidea'>" . getAuthorsAsList($pid) . "</td>";} ?>
+        <?php if (!$test) {echo "<td>$lastCommenter</td>";} ?>
+        <?php if (!$test) {echo "<td>$lastComment</td>";} ?>
+        <?php if (!$test) {echo "<td>" . getLastStatusChangeDate($pid). "</td>";} ?>
+        <?php if ($showAuthorsAndEditors) {echo "<td>" . getAuthorsAsList($pid) . "</td>";} ?>
         <?php if ($showAuthorsAndEditors) {
             $est = getEditorStatus($pid);
-            echo "<td class='puzzidea'>" . $est[0] . "</td>";
+            echo "<td>" . $est[0] . "</td>";
             if (MIN_EDITORS >= 0) {
-              echo "<td class='puzzidea'>" . $est[1] . "</td>";
+              echo "<td>" . $est[1] . "</td>";
             }
         } ?>
-        <?php if (USING_APPROVERS && $showAuthorsAndEditors) {echo "<td class='puzzidea'>" . getApproversAsList($pid) . "</td>";} ?>
-        <?php if ($showAuthorsAndEditors) {echo "<td class='puzzidea'>" . countPuzzApprovals($pid) . "</td>";} ?>
-        <?php if ($showNumTesters) {echo "<td class='puzzidea'>" . getNumTesters($pid) . "</td>";} ?>
-        <?php if ($showCurrentPuzzleTesterCount) {echo "<td class='puzzidea'>" . getCurrentPuzzleTesterCount($pid) . "</td>";} ?>
-        <?php if ($showTesters) {echo "<td class='puzzidea'>" . getCurrentTestersAsList($pid) . "</td>";} ?>
-        <?php if ($showTesters) {echo "<td class='puzzidea'>" .  getLastTestReportDate($pid) . "</td>";} ?>
-        <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {echo "<td class='puzzidea'>" .  getTestsolveRequestsForPuzzle($pid) . "</td>";} ?>
-        <?php if ($showFinalLinks) {echo "<td class='puzzidea'><a href='" .  getBetaLink($title) . "' target='_blank'>beta</a> <a href='". getFinalLink($title)."' target='_blank'>final</a></td>";} ?>
+        <?php if (USING_APPROVERS && $showAuthorsAndEditors) {echo "<td>" . getApproversAsList($pid) . "</td>";} ?>
+        <?php if ($showAuthorsAndEditors) {echo "<td>" . countPuzzApprovals($pid) . "</td>";} ?>
+        <?php if ($showNumTesters) {echo "<td>" . getNumTesters($pid) . "</td>";} ?>
+        <?php if ($showCurrentPuzzleTesterCount) {echo "<td>" . getCurrentPuzzleTesterCount($pid) . "</td>";} ?>
+        <?php if ($showTesters) {echo "<td>" . getCurrentTestersAsList($pid) . "</td>";} ?>
+        <?php if ($showTesters) {echo "<td>" .  getLastTestReportDate($pid) . "</td>";} ?>
+        <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {echo "<td>" .  getTestsolveRequestsForPuzzle($pid) . "</td>";} ?>
+        <?php if ($showFinalLinks) {echo "<td><a href='" .  getBetaLink($title) . "' target='_blank'>beta</a> <a href='". getFinalLink($title)."' target='_blank'>final</a></td>";} ?>
 
     </tr>
 <?php

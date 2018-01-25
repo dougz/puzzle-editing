@@ -160,10 +160,6 @@ tr.test-old {
     background-color: #383838;
 }
 
-tr.puzz { background-color: #DDDDDD; }
-tr.puzz-new { background-color: #ffd; }
-tr.puzz-flag { background-color: #fdd; }
-
 tr.comment-new {
     border-top: solid 5px;
     border-bottom: solid 5px;
@@ -176,21 +172,21 @@ tr.puzz_head {
     font-weight: bold;
 }
 
-th.puzzidea {
+tr.puzz { background-color: #DDDDDD; }
+tr.puzz-new { background-color: #ffd; }
+tr.puzz-flag { background-color: #fdd; }
+
+.puzzidea td {
     border-top: solid 1px;
     border-bottom: solid 1px;
+}
+
+.puzzidea th {
     border-left: none;
     border-right: none;
 }
 
-td.puzzidea {
-    border-top: solid 1px;
-    border-bottom: solid 1px;
-}
-
-td.puzzideasecure {
-    border-top: solid 1px;
-    border-bottom: solid 1px;
+.puzzidea .secure {
     background-color: #000000;
 }
 
