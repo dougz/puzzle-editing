@@ -207,6 +207,18 @@ function printPerson($p) {
 <?php
 }
 
+function displayCell($colname, $contents, $secure = FALSE) {
+    $classes = "";
+    if ($secure) { $classes .= "secure"; }
+    if (empty($contents)) { $classes .= " empty"; }
+    $classes = trim($classes);
+    if (empty($classes)) {
+        echo "<td data-col='$colname'>$contents</td>";
+    } else {
+        echo "<td data-col='$colname' class='$classes'>$contents</td>";
+    }
+}
+
 function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLinkArgs = "", $hidedeadpuzzles = TRUE) {
     $fields = explode(" ", $fields);
     $showNotes = in_array("notes", $fields);
@@ -316,49 +328,44 @@ function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLin
         echo "<tr class='$puzzclass'>";
 
         if ($test) {
-            echo "<td><a href='test.php?pid=$pid$addLinkArgs'>$pid</a></td>";
+	    displayCell('id', "<a href='test.php?pid=$pid$addLinkArgs'>$pid</a>");
         } else {
-            echo "<td><a href='puzzle.php?pid=$pid$addLinkArgs'>$pid</a></td>";
+	    displayCell('id', "<a href='puzzle.php?pid=$pid$addLinkArgs'>$pid</a>");
         }
 ?>
-        <?php if (USING_CODENAMES) {echo '<td>' . $codename . '</td>';} ?>
-        <td><?php echo $title; ?></td>
-        <td data-sort-value='<?php echo $statusSort[$status] ?>'><?php echo $statuses[$status]; ?></td>
-        <td><?php echo implode(', ', array_map(function($r) {return $r['name'];}, $roundDict)); ?></td>
-        <?php if ($showSummary) {echo "<td class='secure'>" . $puzzleInfo["summary"] . "</td>";} ?>
-        <?php if ($showEditorNotes) {echo "<td class='secure'>" . $puzzleInfo["editor_notes"] . "</td>";} ?>
-        <?php if ($showTags) {echo "<td>" . $tags . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td>" . $puzzleInfo["notes"] . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td>" . $puzzleInfo["runtime_info"] . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td>" . getPriorityWord($puzzleInfo["priority"]) . "</td>";} ?>
+        <?php if (USING_CODENAMES) { displayCell('codename', $codename); } ?>
+	<?php displayCell('title', $title); ?>
+        <td data-col='status' data-sort-value='<?php echo $statusSort[$status] ?>'><?php echo $statuses[$status]; ?></td>
+        <?php displayCell('round', implode(', ', array_map(function($r) {return $r['name'];}, $roundDict))); ?>
+        <?php if ($showSummary) { displayCell('summary', $puzzleInfo["summary"], TRUE);} ?>
+        <?php if ($showEditorNotes) {displayCell('editornotes', $puzzleInfo["editor_notes"], TRUE);} ?>
+        <?php if ($showTags) {displayCell('tags', $tags);} ?>
+        <?php if ($showNotes) {displayCell('notes', $puzzleInfo["notes"]);} ?>
+        <?php if ($showNotes) {displayCell('runtime', $puzzleInfo["runtime_info"]);} ?>
+        <?php if ($showNotes) {displayCell('priority', getPriorityWord($puzzleInfo["priority"]));} ?>
 <?php
         if ($showAnswer) {
-            if (getAnswersForPuzzleAsList($pid) != "") {
-                echo "<td class='secure'>";
-            } else {
-                echo "<td>";
-            }
-            echo getAnswersForPuzzleAsList($pid) . "</td>";
+	    displayCell('answer', getAnswersForPuzzleAsList($pid), getAnswersForPuzzleAsList($pid) != "");
         } ?>
-        <?php if (!$test) {echo "<td>$lastCommenter</td>";} ?>
-        <?php if (!$test) {echo "<td>$lastComment</td>";} ?>
-        <?php if (!$test) {echo "<td>" . getLastStatusChangeDate($pid). "</td>";} ?>
-        <?php if ($showAuthorsAndEditors) {echo "<td>" . getAuthorsAsList($pid) . "</td>";} ?>
+        <?php if (!$test) {displayCell('commenter', $lastCommenter);} ?>
+        <?php if (!$test) {displayCell('comment', $lastComment);} ?>
+        <?php if (!$test) {displayCell('statuschange', getLastStatusChangeDate($pid));} ?>
+        <?php if ($showAuthorsAndEditors) {displayCell('authors', getAuthorsAsList($pid));} ?>
         <?php if ($showAuthorsAndEditors) {
             $est = getEditorStatus($pid);
-            echo "<td>" . $est[0] . "</td>";
+	    displayCell('editors', $est[0]);
             if (MIN_EDITORS >= 0) {
-              echo "<td>" . $est[1] . "</td>";
+	      displayCell('editorsneeded', $est[1]);
             }
         } ?>
-        <?php if (USING_APPROVERS && $showAuthorsAndEditors) {echo "<td>" . getApproversAsList($pid) . "</td>";} ?>
-        <?php if ($showAuthorsAndEditors) {echo "<td>" . countPuzzApprovals($pid) . "</td>";} ?>
-        <?php if ($showNumTesters) {echo "<td>" . getNumTesters($pid) . "</td>";} ?>
-        <?php if ($showCurrentPuzzleTesterCount) {echo "<td>" . getCurrentPuzzleTesterCount($pid) . "</td>";} ?>
-        <?php if ($showTesters) {echo "<td>" . getCurrentTestersAsList($pid) . "</td>";} ?>
-        <?php if ($showTesters) {echo "<td>" .  getLastTestReportDate($pid) . "</td>";} ?>
-        <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {echo "<td>" .  getTestsolveRequestsForPuzzle($pid) . "</td>";} ?>
-        <?php if ($showFinalLinks) {echo "<td><a href='" .  getBetaLink($title) . "' target='_blank'>beta</a> <a href='". getFinalLink($title)."' target='_blank'>final</a></td>";} ?>
+        <?php if (USING_APPROVERS && $showAuthorsAndEditors) {displayCell('approvers', getApproversAsList($pid));} ?>
+        <?php if ($showAuthorsAndEditors) {displayCell('approvals', countPuzzApprovals($pid));} ?>
+        <?php if ($showNumTesters) {displayCell('numtesters', getNumTesters($pid));} ?>
+        <?php if ($showCurrentPuzzleTesterCount) {displayCell('numcurtesters', getCurrentPuzzleTesterCount($pid));} ?>
+        <?php if ($showTesters) {displayCell('testers', getCurrentTestersAsList($pid));} ?>
+        <?php if ($showTesters) {displayCell('lasttest', getLastTestReportDate($pid));} ?>
+        <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {displayCell('testsolvereqs', getTestsolveRequestsForPuzzle($pid));} ?>
+        <?php if ($showFinalLinks) {displayCell('finallinks', "<a href='" .  getBetaLink($title) . "' target='_blank'>beta</a> <a href='". getFinalLink($title)."' target='_blank'>final</a>");} ?>
 
     </tr>
 <?php
