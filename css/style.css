@@ -217,6 +217,10 @@ tr.puzz-flag { background-color: #fdd; }
 	left: 6px;
     }
 
+    .puzzidea td.secure:before {
+        color: #eee;
+    }
+
     td[data-col='id']:before { content: "ID"; }
     td[data-col="codename"]:before { content: "Codename"; }
     td[data-col='title']:before { content: "Title"; }
