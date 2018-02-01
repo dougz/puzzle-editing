@@ -51,7 +51,6 @@ h1 { margin: 0; }
 .clear { clear: both; }
 
 #navbar {
-    float:left;
     width:100%;
     background-color: #eee;
     background: linear-gradient(to bottom, #eee, #ddd);
@@ -90,23 +89,23 @@ td {
     vertical-align: top;
 }
 
+#nav-icon { display: none; }
+
 ul.nav {
-    display:block;
+    display:inline-block;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    float: left;
 }
 
 li.nav {
-    float: left;
-    display:block;
+    display:inline-block;
     list-style-type: none;
     text-align: left;
 }
 
-a.nav {
-    display: block;
+a.nav, a.selnav {
+    display: inline-block;
     padding: 5px 12px;
     font-size: 1.2em;
 }
@@ -131,11 +130,8 @@ a.wikinav:hover {
 }
 
 a.selnav {
-    display: block;
-    padding: 5px 12px;
     background-color:#B8CFC2;
     background: linear-gradient(to bottom, #acb, #ced);
-    font-size: 1.2em;
     font-weight: bold;
     text-decoration: none;
 }
@@ -146,6 +142,21 @@ a.selnav:hover {color:#000000;}
 a.selnav:active {color:#000000;}
 
 div.navr { float: right; }
+
+@media (max-width: 600px) {
+    #nav-icon {
+	display: inline-block;
+	font-size: 1.8em;
+	margin-left: 5px;
+	float: left;
+    }
+    a.nav { display: none; }
+
+    #nav-icon a { color: black; text-decoration: none; }
+
+    #navbar.open li { display: block; }
+    #navbar.open a.nav { display: block; }
+}
 
 tr.people, div.comment, tr.puzz, tr.puzz-new, tr.puzz-flag {
     border-top: solid 1px;
@@ -190,7 +201,7 @@ tr.puzz-flag { background-color: #fdd; }
     background-color: #000000;
 }
 
-@media(max-width: 1100px) {
+@media(max-width: 900px) {
     .puzzidea, .puzzidea tr, .puzzidea thead,
     .puzzidea tbody, .puzzidea th, .puzzidea td {
 	display: block;

@@ -53,6 +53,16 @@ if ($now > $hunt) {
     <script type='text/javascript' src='jquery-1.4.2.js'></script>
     <script type='text/javascript' src='jquery.tablesorter.min.js'></script>
     <script type="text/javascript" src='js.js'></script>
+    <script type="text/javascript">
+    function openMenu() {
+      var x = document.getElementById("navbar");
+      if (x.className === "menubar") {
+        x.className += " open";
+      } else {
+        x.className = "menubar";
+      }
+    }
+    </script>
 </head>
 <body>
 <div id="container">
@@ -60,7 +70,8 @@ if ($now > $hunt) {
         <div id="titlediv">
             <h1><?php echo fullTitle(); ?></h1>
         </div>
-        <div id="navbar">
+        <div id="navbar" class="menubar">
+	    <div id="nav-icon"><a href="javascript:void(0);" onclick="openMenu()">&#x2261;</a></div>
             <ul class="nav">
 <?php if (!empty(WIKI_URL)) { ?>
                 <li class="nav"><a class="nav wikinav" target="_blank" href="<?php echo WIKI_URL; ?> ">Wiki</a></li>
