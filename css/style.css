@@ -311,7 +311,7 @@ td.FactcheckerComment { background-color: #B4D8C8; }
 @media(max-width: 920px) {
 .puzzle-stats-section { display: block; }
 .puzzle-stats-row { display: block; }
-.stats-block { display: inline-block; vertical-align: top; height: 20ex; margin-right: -4px;}
+.stats-block { display: inline-block; vertical-align: top; margin-right: -4px;}
 }
 
 .stats-block td, .stats-block th {
