@@ -30,13 +30,10 @@ echo "\">Go To phpMyAdmin</a> (manipulate MySQL database)</p><br>";
     <p><a href="adminpassword.php">Admin Reset Password Interface</a></p>
     <p>Enter New Message of the Day (MOTD) For Team:<br>
     <form method="post" action="admin.php" />
-        <table class="boxed">
-            <td><textarea name="newmotd" style="resize:none; width:75ex" wrap="hard" cols=75 rows=10></textarea></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Submit"></td>
-        </tr>
-        </table>
+      <div class="boxed">
+        <textarea name="newmotd" style="resize:none; width:75ex" wrap="hard" cols=75 rows=10 class="motd"></textarea>
+        <input type="submit" value="Submit">
+      </div>
         <input type="hidden" value='<?php echo getUserUsername($_SESSION['uid']); ?>' />
     </form>
     </p>

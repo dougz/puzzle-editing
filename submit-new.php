@@ -158,7 +158,7 @@ function newIdeaForm($uid, $summary = '', $description = '') {
         helpful. You can use basic HTML in this
         field. Spoilers are fine.</p>
 
-        <textarea style="width:50em; height: 25em;" name="description"><?php echo $description; ?></textarea>
+        <textarea class="desc" name="description"><?php echo $description; ?></textarea>
         <p style='padding-top:1em;'>Select coauthors:</p>
 <?php
 $authors = getAvailableAuthorsForPuzzle(FALSE);
