@@ -39,6 +39,7 @@ if ($now > $hunt) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
 
@@ -52,40 +53,25 @@ if ($now > $hunt) {
     <script type='text/javascript' src='jquery-1.4.2.js'></script>
     <script type='text/javascript' src='jquery.tablesorter.min.js'></script>
     <script type="text/javascript" src='js.js'></script>
+    <script type="text/javascript">
+    function openMenu() {
+      var x = document.getElementById("navbar");
+      if (x.className === "menubar") {
+        x.className += " open";
+      } else {
+        x.className = "menubar";
+      }
+    }
+    </script>
 </head>
 <body>
 <div id="container">
     <div id="header">
-        <div id="top">
-            <div id="countdowndiv">
-                <span id="countdown">
-                <?php
-                    if ($days !== 0) {
-                        $daypl = $days === 1 ? "" : "s";
-                        echo "<span class=\"$cdclass\">$days</span> day$daypl, ";
-                    }
-                    $hrpl =  $hrs  === 1 ? "" : "s";
-                    echo "<span class=\"$cdclass\">$hrs</span> hour$hrpl and ";
-                    $minpl = $mins === 1 ? "" : "s";
-                    echo "<span class=\"$cdclass\">$mins</span> minute$minpl $cdmsg";
-                ?>
-                </span>
-            </div>
-            <div id="titlediv">
-                <h1><?php echo fullTitle(); ?></h1>
-            </div>
-            <div id="logindiv">
-<?php if (isset($_SESSION['uid'])) {
-    echo 'Logged in as <strong>' . getUserUsername($_SESSION['uid']) . '</strong>';
-    echo '<a href="account.php"' . ($selnav == "account" ? ' class="accsel"' : "") . '>Your Account</a>';
-    if (MAILING_LISTS) { echo '<a href="mailinglists.php"' . ($selnav == "mailinglists" ? ' class="accsel"' : "") . '>Mailing Lists</a>'; }
-    if (!TRUST_REMOTE_USER) { echo '<a href="logout.php">Logout</a>'; }
-} else { ?>
-                <span class="notloggedin">Not logged in</span> <a href="login.php">Login</a>
-        <?php } ?>
-            </div>
+        <div id="titlediv">
+            <h1><?php echo fullTitle(); ?></h1>
         </div>
-        <div id="navbar">
+        <div id="navbar" class="menubar">
+	    <div id="nav-icon"><a href="javascript:void(0);" onclick="openMenu()">&#x2261;</a></div>
             <ul class="nav">
 <?php if (!empty(WIKI_URL)) { ?>
                 <li class="nav"><a class="nav wikinav" target="_blank" href="<?php echo WIKI_URL; ?> ">Wiki</a></li>
@@ -114,6 +100,32 @@ if (isset($_SESSION['uid'])) {
 }
 ?>
             </ul>
+        </div>
+        <div id="top">
+            <div id="countdowndiv">
+                <span id="countdown">
+                <?php
+                    if ($days !== 0) {
+                        $daypl = $days === 1 ? "" : "s";
+                        echo "<span class=\"$cdclass\">$days</span> day$daypl<span class=\"cdhidden\">, ";
+                    }
+                    $hrpl =  $hrs  === 1 ? "" : "s";
+                    echo "<span class=\"$cdclass\">$hrs</span> hour$hrpl and ";
+                    $minpl = $mins === 1 ? "" : "s";
+                    echo "<span class=\"$cdclass\">$mins</span> minute$minpl</span> $cdmsg";
+                ?>
+                </span>
+            </div>
+            <div id="logindiv">
+<?php if (isset($_SESSION['uid'])) {
+    echo 'Logged in as <strong>' . getUserUsername($_SESSION['uid']) . '</strong>';
+    echo '<a href="account.php"' . ($selnav == "account" ? ' class="accsel"' : "") . '>Your Account</a>';
+    if (MAILING_LISTS) { echo '<a href="mailinglists.php"' . ($selnav == "mailinglists" ? ' class="accsel"' : "") . '>Mailing Lists</a>'; }
+    if (!TRUST_REMOTE_USER) { echo '<a href="logout.php">Logout</a>'; }
+} else { ?>
+                <span class="notloggedin">Not logged in</span> <a href="login.php">Login</a>
+        <?php } ?>
+            </div>
         </div>
         <div class="clear"></div>
     </div>
@@ -206,6 +218,18 @@ function printPerson($p) {
 <?php
 }
 
+function displayCell($colname, $contents, $secure = FALSE) {
+    $classes = "";
+    if ($secure) { $classes .= "secure"; }
+    if (empty($contents)) { $classes .= " empty"; }
+    $classes = trim($classes);
+    if (empty($classes)) {
+        echo "<td data-col='$colname'>$contents</td>";
+    } else {
+        echo "<td data-col='$colname' class='$classes'>$contents</td>";
+    }
+}
+
 function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLinkArgs = "", $hidedeadpuzzles = TRUE) {
     $fields = explode(" ", $fields);
     $showNotes = in_array("notes", $fields);
@@ -228,35 +252,35 @@ function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLin
     $deadstatusid = getDeadStatusId();
     $flaggedPuzzles = getFlaggedPuzzles($uid);
 ?>
-    <table class="tablesorter">
+    <table class="puzzidea tablesorter">
     <thead>
         <tr>
-            <th class="puzzidea">ID</th>
-            <?php if (USING_CODENAMES) {echo '<th class="puzzidea">Codename</th>';} ?>
-            <th class="puzzidea">Title</th>
-            <th class="puzzidea">Puzzle Status</th>
-            <th class="puzzidea">Round(s)</th>
-            <?php if ($showSummary) {echo '<th class="puzzidea">Summary</th>';} ?>
-            <?php if ($showEditorNotes) {echo '<th class="puzzidea">Editor Notes</th>';} ?>
-            <?php if ($showTags) {echo '<th class="puzzidea">Tags</th>';} ?>
-            <?php if ($showNotes) {echo '<th class="puzzidea">Status Notes</th>';} ?>
-            <?php if ($showNotes) {echo '<th class="puzzidea">Runtime Info</th>';} ?>
-            <?php if ($showNotes) {echo '<th class="puzzidea">Priority</th>';} ?>
-            <?php if ($showAnswer) {echo '<th class="puzzidea">Answer</th>';} ?>
-            <?php if (!$test) { echo '<th class="puzzidea">Last Commenter</th>';} ?>
-            <?php if (!$test) { echo '<th class="puzzidea">Last Comment</th>';}?>
-            <?php if (!$test){ echo '<th class="puzzidea">Last Status Change</th>';}?>
-            <?php if ($showAuthorsAndEditors) {echo '<th class="puzzidea">Authors</th>';} ?>
-            <?php if ($showAuthorsAndEditors) {echo '<th class="puzzidea">Discussion Editors</th>';} ?>
-            <?php if (MIN_EDITORS >= 0 && $showAuthorsAndEditors) {echo '<th class="puzzidea">D.Eds Needed</th>';} ?>
-            <?php if (USING_APPROVERS && $showAuthorsAndEditors) {echo '<th class="puzzidea">Approval Editors</th>';} ?>
-            <?php if ($showAuthorsAndEditors) {echo '<th class="puzzidea">Approvals</th>';} ?>
-            <?php if ($showNumTesters) {echo '<th class="puzzidea"># Testers</th>';} ?>
-            <?php if ($showCurrentPuzzleTesterCount) {echo '<th class="puzzidea"># Current Testers';} ?>
-            <?php if ($showTesters) {echo '<th class="puzzidea">Testers</th>';} ?>
-            <?php if ($showTesters) {echo '<th class="puzzidea">Last Test Report</th>';} ?>
-            <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {echo '<th class="puzzidea">Testsolve requests</th>';} ?>
-            <?php if ($showFinalLinks) {echo '<th class="puzzidea">Final Links</th>';} ?>
+            <th>ID</th>
+            <?php if (USING_CODENAMES) {echo '<th>Codename</th>';} ?>
+            <th>Title</th>
+            <th>Puzzle Status</th>
+            <th>Round(s)</th>
+            <?php if ($showSummary) {echo '<th>Summary</th>';} ?>
+            <?php if ($showEditorNotes) {echo '<th>Editor Notes</th>';} ?>
+            <?php if ($showTags) {echo '<th>Tags</th>';} ?>
+            <?php if ($showNotes) {echo '<th>Status Notes</th>';} ?>
+            <?php if ($showNotes) {echo '<th>Runtime Info</th>';} ?>
+            <?php if ($showNotes) {echo '<th>Priority</th>';} ?>
+            <?php if ($showAnswer) {echo '<th>Answer</th>';} ?>
+            <?php if (!$test) { echo '<th>Last Commenter</th>';} ?>
+            <?php if (!$test) { echo '<th>Last Comment</th>';}?>
+            <?php if (!$test){ echo '<th>Last Status Change</th>';}?>
+            <?php if ($showAuthorsAndEditors) {echo '<th>Authors</th>';} ?>
+            <?php if ($showAuthorsAndEditors) {echo '<th>Discussion Editors</th>';} ?>
+            <?php if (MIN_EDITORS >= 0 && $showAuthorsAndEditors) {echo '<th>D.Eds Needed</th>';} ?>
+            <?php if (USING_APPROVERS && $showAuthorsAndEditors) {echo '<th>Approval Editors</th>';} ?>
+            <?php if ($showAuthorsAndEditors) {echo '<th>Approvals</th>';} ?>
+            <?php if ($showNumTesters) {echo '<th># Testers</th>';} ?>
+            <?php if ($showCurrentPuzzleTesterCount) {echo '<th># Current Testers</th>';} ?>
+            <?php if ($showTesters) {echo '<th>Testers</th>';} ?>
+            <?php if ($showTesters) {echo '<th>Last Test Report</th>';} ?>
+            <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {echo '<th>Testsolve requests</th>';} ?>
+            <?php if ($showFinalLinks) {echo '<th>Final Links</th>';} ?>
         </tr>
     </thead>
     <tbody>
@@ -306,58 +330,53 @@ function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLin
         $flagged = in_array($pid, $flaggedPuzzles);
         $status = $puzzleInfo["pstatus"];
 
+        $puzzclass="puzz";
         if (($lastVisit == NULL || strtotime($lastVisit) < strtotime($lastComment)) || $test) {
-            echo '<tr class="puzz-new">';
+          $puzzclass = "puzz-new";
         } elseif ($flagged) {
-            echo '<tr class="puzz-flag">';
-        } else {
-            echo '<tr class="puzz">';
+          $puzzclass = "puzz-flag";
         }
+        echo "<tr class='$puzzclass'>";
 
         if ($test) {
-            echo "<td class='puzzidea'><a href='test.php?pid=$pid$addLinkArgs'>$pid</a></td>";
+	    displayCell('id', "<a href='test.php?pid=$pid$addLinkArgs'>$pid</a>");
         } else {
-            echo "<td class='puzzidea'><a href='puzzle.php?pid=$pid$addLinkArgs'>$pid</a></td>";
+	    displayCell('id', "<a href='puzzle.php?pid=$pid$addLinkArgs'>$pid</a>");
         }
 ?>
-        <?php if (USING_CODENAMES) {echo '<td class="puzzidea">' . $codename . '</th>';} ?>
-        <td class='puzzidea'><?php echo $title; ?></td>
-        <td class='puzzidea' data-sort-value='<?php echo $statusSort[$status] ?>'><?php echo $statuses[$status]; ?></td>
-        <td class='puzzidea'><?php echo implode(', ', array_map(function($r) {return $r['name'];}, $roundDict)); ?></td>
-        <?php if ($showSummary) {echo "<td class='puzzideasecure'>" . $puzzleInfo["summary"] . "</td>";} ?>
-        <?php if ($showEditorNotes) {echo "<td class='puzzideasecure'>" . $puzzleInfo["editor_notes"] . "</td>";} ?>
-        <?php if ($showTags) {echo "<td class='puzzidea'>" . $tags . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td class='puzzidea'>" . $puzzleInfo["notes"] . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td class='puzzidea'>" . $puzzleInfo["runtime_info"] . "</td>";} ?>
-        <?php if ($showNotes) {echo "<td class='puzzidea'>" . getPriorityWord($puzzleInfo["priority"]) . "</td>";} ?>
+        <?php if (USING_CODENAMES) { displayCell('codename', $codename); } ?>
+	<?php displayCell('title', $title); ?>
+        <td data-col='status' data-sort-value='<?php echo $statusSort[$status] ?>'><?php echo $statuses[$status]; ?></td>
+        <?php displayCell('round', implode(', ', array_map(function($r) {return $r['name'];}, $roundDict))); ?>
+        <?php if ($showSummary) { displayCell('summary', $puzzleInfo["summary"], TRUE);} ?>
+        <?php if ($showEditorNotes) {displayCell('editornotes', $puzzleInfo["editor_notes"], TRUE);} ?>
+        <?php if ($showTags) {displayCell('tags', $tags);} ?>
+        <?php if ($showNotes) {displayCell('notes', $puzzleInfo["notes"]);} ?>
+        <?php if ($showNotes) {displayCell('runtime', $puzzleInfo["runtime_info"]);} ?>
+        <?php if ($showNotes) {displayCell('priority', getPriorityWord($puzzleInfo["priority"]));} ?>
 <?php
         if ($showAnswer) {
-            if (getAnswersForPuzzleAsList($pid) != "") {
-                echo "<td class='puzzideasecure'>";
-            } else {
-                echo "<td class='puzzidea'>";
-            }
-            echo getAnswersForPuzzleAsList($pid) . "</td>";
+	    displayCell('answer', getAnswersForPuzzleAsList($pid), getAnswersForPuzzleAsList($pid) != "");
         } ?>
-        <?php if (!$test) {echo "<td class='puzzidea'>$lastCommenter</td>";} ?>
-        <?php if (!$test) {echo "<td class='puzzidea'>$lastComment</td>";} ?>
-        <?php if (!$test) {echo "<td class='puzzidea'>" . getLastStatusChangeDate($pid). "</td>";} ?>
-        <?php if ($showAuthorsAndEditors) {echo "<td class='puzzidea'>" . getAuthorsAsList($pid) . "</td>";} ?>
+        <?php if (!$test) {displayCell('commenter', $lastCommenter);} ?>
+        <?php if (!$test) {displayCell('comment', $lastComment);} ?>
+        <?php if (!$test) {displayCell('statuschange', getLastStatusChangeDate($pid));} ?>
+        <?php if ($showAuthorsAndEditors) {displayCell('authors', getAuthorsAsList($pid));} ?>
         <?php if ($showAuthorsAndEditors) {
             $est = getEditorStatus($pid);
-            echo "<td class='puzzidea'>" . $est[0] . "</td>";
+	    displayCell('editors', $est[0]);
             if (MIN_EDITORS >= 0) {
-              echo "<td class='puzzidea'>" . $est[1] . "</td>";
+	      displayCell('editorsneeded', $est[1]);
             }
         } ?>
-        <?php if (USING_APPROVERS && $showAuthorsAndEditors) {echo "<td class='puzzidea'>" . getApproversAsList($pid) . "</td>";} ?>
-        <?php if ($showAuthorsAndEditors) {echo "<td class='puzzidea'>" . countPuzzApprovals($pid) . "</td>";} ?>
-        <?php if ($showNumTesters) {echo "<td class='puzzidea'>" . getNumTesters($pid) . "</td>";} ?>
-        <?php if ($showCurrentPuzzleTesterCount) {echo "<td class='puzzidea'>" . getCurrentPuzzleTesterCount($pid) . "</td>";} ?>
-        <?php if ($showTesters) {echo "<td class='puzzidea'>" . getCurrentTestersAsList($pid) . "</td>";} ?>
-        <?php if ($showTesters) {echo "<td class='puzzidea'>" .  getLastTestReportDate($pid) . "</td>";} ?>
-        <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {echo "<td class='puzzidea'>" .  getTestsolveRequestsForPuzzle($pid) . "</td>";} ?>
-        <?php if ($showFinalLinks) {echo "<td class='puzzidea'><a href='" .  getBetaLink($title) . "' target='_blank'>beta</a> <a href='". getFinalLink($title)."' target='_blank'>final</a></td>";} ?>
+        <?php if (USING_APPROVERS && $showAuthorsAndEditors) {displayCell('approvers', getApproversAsList($pid));} ?>
+        <?php if ($showAuthorsAndEditors) {displayCell('approvals', countPuzzApprovals($pid));} ?>
+        <?php if ($showNumTesters) {displayCell('numtesters', getNumTesters($pid));} ?>
+        <?php if ($showCurrentPuzzleTesterCount) {displayCell('numcurtesters', getCurrentPuzzleTesterCount($pid));} ?>
+        <?php if ($showTesters) {displayCell('testers', getCurrentTestersAsList($pid));} ?>
+        <?php if ($showTesters) {displayCell('lasttest', getLastTestReportDate($pid));} ?>
+        <?php if (($showTesters) && (USING_TESTSOLVE_REQUESTS)) {displayCell('testsolvereqs', getTestsolveRequestsForPuzzle($pid));} ?>
+        <?php if ($showFinalLinks) {displayCell('finallinks', "<a href='" .  getBetaLink($title) . "' target='_blank'>beta</a> <a href='". getFinalLink($title)."' target='_blank'>final</a>");} ?>
 
     </tr>
 <?php
@@ -435,95 +454,96 @@ function displayPuzzleStats($uid) {
         $tester .= ' (+' . $userNumbers['doneTester'] . ' done)';
     }
 ?>
-    <table><tr>
-        <td class="puzz-stats">
-            <table>
-                <tr>
-                    <th class="puzz-stats" colspan="2"><?php echo $totalNumberOfPuzzles; ?> Total Live Puzzles/Ideas</th>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Discuss Ed</td>
-                    <td class="puzz-stats"><?php echo $editor; ?></td>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Approve Ed</td>
-                    <td class="puzz-stats"><?php echo $userNumbers['approver']; ?></td>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Author</td>
-                    <td class="puzz-stats"><?php echo $userNumbers['author']; ?></td>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Spoiled</td>
-                    <td class="puzz-stats"><?php echo $userNumbers['spoiled']; ?></td>
-                </tr>
-                <tr>
-                    <td class="puzz-stats">You Are Tester</td>
-                    <td class="puzz-stats"><?php echo $tester; ?></td>
-                </tr>
-                <!--<tr>
-                        <td class="puzz-stats">Available To Edit</td>
-                        <td class="puzz-stats"><?php echo $userNumbers['available']; ?></td>
-                </tr>-->
-            </table>
-        </td>
-        <td class="discussion-ed-stats">
-            <table>
-                <tr>
-                    <th class="discussion-ed-stats" colspan="2">Discuss Eds</th>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">Zero</td>
-                    <td class="discussion-ed-stats"><?php echo $numberOfEditors['0']; ?></td>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">One</td>
-                    <td class="discussion-ed-stats"><?php echo $numberOfEditors['1']; ?></td>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">Two</td>
-                    <td class="discussion-ed-stats"><?php echo $numberOfEditors['2']; ?></td>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">Three</td>
-                    <td class="discussion-ed-stats"><?php echo $numberOfEditors['3']; ?></td>
-                </tr>
-                <tr>
-                    <td class="discussion-ed-stats">&gt;Three</td>
-                    <td class="discussion-ed-stats"><?php echo $moreThanThree; ?></td>
-                </tr>
-            </table>
-        </td>
+<div class="puzzle-stats-section">
+  <div class="puzzle-stats-row">
+   <div class="puzz-stats stats-block">
+       <table>
+           <tr>
+               <th class="puzz-stats" colspan="2"><?php echo $totalNumberOfPuzzles; ?> Total Live Puzzles/Ideas</th>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Discuss Ed</td>
+               <td class="puzz-stats"><?php echo $editor; ?></td>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Approve Ed</td>
+               <td class="puzz-stats"><?php echo $userNumbers['approver']; ?></td>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Author</td>
+               <td class="puzz-stats"><?php echo $userNumbers['author']; ?></td>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Spoiled</td>
+               <td class="puzz-stats"><?php echo $userNumbers['spoiled']; ?></td>
+           </tr>
+           <tr>
+               <td class="puzz-stats">You Are Tester</td>
+               <td class="puzz-stats"><?php echo $tester; ?></td>
+           </tr>
+           <!--<tr>
+               <td class="puzz-stats">Available To Edit</td>
+               <td class="puzz-stats"><?php echo $userNumbers['available']; ?></td>
+           </tr>-->
+       </table>
+   </div>
+   <div class="discussion-ed-stats stats-block">
+       <table>
+           <tr>
+               <th class="discussion-ed-stats" colspan="2">Discuss Eds</th>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">Zero</td>
+               <td class="discussion-ed-stats"><?php echo $numberOfEditors['0']; ?></td>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">One</td>
+               <td class="discussion-ed-stats"><?php echo $numberOfEditors['1']; ?></td>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">Two</td>
+               <td class="discussion-ed-stats"><?php echo $numberOfEditors['2']; ?></td>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">Three</td>
+               <td class="discussion-ed-stats"><?php echo $numberOfEditors['3']; ?></td>
+           </tr>
+           <tr>
+               <td class="discussion-ed-stats">&gt;Three</td>
+               <td class="discussion-ed-stats"><?php echo $moreThanThree; ?></td>
+           </tr>
+       </table>
+   </div>
 <?php
     if (USING_APPROVERS) {
 ?>
-        <td class="approval-ed-stats">
-            <table>
-                <tr>
-                    <th class="approval-ed-stats" colspan="2">Approval Eds</th>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">Zero</td>
-                    <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['0']; ?></td>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">One</td>
-                    <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['1']; ?></td>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">Two</td>
-                    <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['2']; ?></td>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">Three</td>
-                    <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['3']; ?></td>
-                </tr>
-                <tr>
-                    <td class="approval-ed-stats">&gt;Three</td>
-                    <td class="approval-ed-stats"><?php echo $moreThanThreeApproval; ?></td>
-                </tr>
-            </table>
-        </td>
+   <div class="approval-ed-stats stats-block">
+       <table>
+           <tr>
+               <th class="approval-ed-stats" colspan="2">Approval Eds</th>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">Zero</td>
+               <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['0']; ?></td>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">One</td>
+               <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['1']; ?></td>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">Two</td>
+               <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['2']; ?></td>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">Three</td>
+               <td class="approval-ed-stats"><?php echo $numberOfApprovalEditors['3']; ?></td>
+           </tr>
+           <tr>
+               <td class="approval-ed-stats">&gt;Three</td>
+               <td class="approval-ed-stats"><?php echo $moreThanThreeApproval; ?></td>
+           </tr>
+       </table>
+   </div>
 <?php
     }
 
@@ -541,11 +561,11 @@ function displayPuzzleStats($uid) {
         $statuses[] = $status;
     }
 ?>
-        <td class="p-stats">
-            <table>
-                <tr>
-                    <th class="p-stats" colspan="<?php echo $pstatusCol; ?>">Puzzle Status</th>
-                </tr>
+    <div class="p-stats stats-block">
+        <table>
+            <tr>
+                <th class="p-stats" colspan="<?php echo $pstatusCol; ?>">Puzzle Status</th>
+            </tr>
 <?php
     for ($row = 0; $row < $max_rows; $row++) {
         for ($col = 0; $col < ($pstatusCol / 2); $col++) {
@@ -578,27 +598,28 @@ function displayPuzzleStats($uid) {
         }
     }
 ?>
-            </table>
-        </td>
-        <td class="answer-stats">
-            <table>
-                <tr>
-                    <th class="answer-stats" colspan="2"> Answer Status</th>
-                </tr>
-                <tr>
-                    <td class="answer-stats"> Total Answers </td>
-                    <td class="answer-stats"> <?php echo numAnswers(); ?> </td>
-                </tr>
-                <tr>
-                    <td class="answer-stats"> Assigned </td>
-                    <td class="answer-stats"> <?php echo answersAssigned(); ?> </td>
-                </tr>
-                <tr>
-                    <td class="answer-stats"> Unassigned </td>
-                    <td class="answer-stats"> <?php echo (numAnswers() - answersAssigned()); ?> </td>
-                </tr>
-            </table>
-        </td>
-    </tr></table>
+        </table>
+    </div>
+    <div class="answer-stats stats-block">
+        <table>
+            <tr>
+                <th class="answer-stats" colspan="2"> Answer Status</th>
+            </tr>
+            <tr>
+                <td class="answer-stats"> Total Answers </td>
+                <td class="answer-stats"> <?php echo numAnswers(); ?> </td>
+            </tr>
+            <tr>
+                <td class="answer-stats"> Assigned </td>
+                <td class="answer-stats"> <?php echo answersAssigned(); ?> </td>
+            </tr>
+            <tr>
+                <td class="answer-stats"> Unassigned </td>
+                <td class="answer-stats"> <?php echo (numAnswers() - answersAssigned()); ?> </td>
+            </tr>
+        </table>
+    </div>
+  </div>
+</div>
 <?php
 }

@@ -10,10 +10,11 @@ body {
     font-family: calibri, 'lucida grande', tahoma, helvetica, arial, verdana, sans-serif;
     color: #000000;
     background-color: #ffffff;
-    margin: 0px 40px 0px 50px;
     padding: 0;
     height: 100%;
 }
+
+#titlediv, #top, #body, #footer { margin-left: 2em; margin-right: 2em; }
 
 #header { margin-top: 10px; }
 h1 { margin: 0; }
@@ -35,18 +36,24 @@ h1 { margin: 0; }
     background: linear-gradient(to bottom, #acb, #ced);
 }
 .notloggedin { color: #666; font-style: italic; }
+#countdowndiv { position: absolute; top: 0; right: 0; padding-right: 1em; }
 #countdowndiv { text-align:right; vertical-align:top; }
 #countdown { margin-top: 0; font-size: 108%; }
 .cdnum { color: red; font-weight: bold; }
 .cunum { color: #0c0; font-weight: bold; }
+@media(max-width: 905px) {
+    .cdhidden { display: none; }
+}
+@media(max-width: 740px) {
+    #countdowndiv { display: none; }
+}
+
 .clear { clear: both; }
 
 #navbar {
-    float:left;
     width:100%;
     background-color: #eee;
     background: linear-gradient(to bottom, #eee, #ddd);
-    border-radius: 0.7em 0 0 0;
 }
 
 #container {
@@ -57,14 +64,13 @@ h1 { margin: 0; }
 
 #body {
     padding-top: 1em;
-    padding-bottom: 75px;
 }
 
 #footer {
-    position: absolute;
+    font-size: 90%;
+    color: #666;
     bottom: 0px;
-    width: 100%;
-    height: 75px;
+    margin-top: 1em;
 }
 
 .red { color:#FF0000; }
@@ -83,23 +89,23 @@ td {
     vertical-align: top;
 }
 
+#nav-icon { display: none; }
+
 ul.nav {
-    display:block;
+    display:inline-block;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    float: left;
 }
 
 li.nav {
-    float: left;
-    display:block;
+    display:inline-block;
     list-style-type: none;
     text-align: left;
 }
 
-a.nav {
-    display: block;
+a.nav, a.selnav {
+    display: inline-block;
     padding: 5px 12px;
     font-size: 1.2em;
 }
@@ -113,8 +119,8 @@ a.nav:hover {
 }
 a.nav:active {color:#000000;}
 
-a.wikinav { border-radius: 0.7em 0 0 0; }
 a.wikinav:link, a.wikinav:visited, a.wikinav:active {
+    padding-left: 1.2em;
     background-color: #bcd;
     background: linear-gradient(to bottom, #cde, #abc);
 }
@@ -124,11 +130,8 @@ a.wikinav:hover {
 }
 
 a.selnav {
-    display: block;
-    padding: 5px 12px;
     background-color:#B8CFC2;
     background: linear-gradient(to bottom, #acb, #ced);
-    font-size: 1.2em;
     font-weight: bold;
     text-decoration: none;
 }
@@ -140,7 +143,22 @@ a.selnav:active {color:#000000;}
 
 div.navr { float: right; }
 
-tr.people, tr.comment, tr.puzz, tr.puzz-new, tr.puzz-flag {
+@media (max-width: 600px) {
+    #nav-icon {
+	display: inline-block;
+	font-size: 1.8em;
+	margin-left: 5px;
+	float: left;
+    }
+    a.nav { display: none; }
+
+    #nav-icon a { color: black; text-decoration: none; }
+
+    #navbar.open li { display: block; }
+    #navbar.open a.nav { display: block; }
+}
+
+tr.people, div.comment, tr.puzz, tr.puzz-new, tr.puzz-flag {
     border-top: solid 1px;
     border-bottom: solid 1px;
     text-align: left;
@@ -152,10 +170,6 @@ tr.test-old {
     text-align: left;
     background-color: #383838;
 }
-
-tr.puzz { background-color: #DDDDDD; }
-tr.puzz-new { background-color: #ffd; }
-tr.puzz-flag { background-color: #fdd; }
 
 tr.comment-new {
     border-top: solid 5px;
@@ -169,22 +183,84 @@ tr.puzz_head {
     font-weight: bold;
 }
 
-th.puzzidea {
+tr.puzz { background-color: #DDDDDD; }
+tr.puzz-new { background-color: #ffd; }
+tr.puzz-flag { background-color: #fdd; }
+
+.puzzidea td {
     border-top: solid 1px;
     border-bottom: solid 1px;
+}
+
+.puzzidea th {
     border-left: none;
     border-right: none;
 }
 
-td.puzzidea {
-    border-top: solid 1px;
-    border-bottom: solid 1px;
+.puzzidea .secure {
+    background-color: #000000;
 }
 
-td.puzzideasecure {
-    border-top: solid 1px;
-    border-bottom: solid 1px;
-    background-color: #000000;
+@media(max-width: 900px) {
+    .puzzidea, .puzzidea tr, .puzzidea thead,
+    .puzzidea tbody, .puzzidea th, .puzzidea td {
+	display: block;
+    }
+
+    .puzzidea th { display: none; }
+
+    .puzzidea tr { border-top: solid 1px; border-bottom: solid 1px #000; }
+    .puzzidea td {
+	border: none;
+	border-bottom: 1px solid #eee;
+	padding-left: 30%;
+	position: relative;
+    }
+    .puzzidea td.empty { display: none; }
+
+    .puzzidea td:before {
+	position: absolute;
+	white-space: nowrap;
+	width: 25%;
+	overflow: hidden;
+	padding-right: 10px;
+	top: 6px;
+	left: 6px;
+    }
+
+    .puzzidea td.secure:before {
+        color: #eee;
+    }
+
+    td[data-col='id']:before { content: "ID"; }
+    td[data-col="codename"]:before { content: "Codename"; }
+    td[data-col='title']:before { content: "Title"; }
+    td[data-col='status']:before { content: "Puzz Status"; }
+    td[data-col='round']:before { content: "Round(s)"; }
+    td[data-col='summary']:before { content: "Summary"; }
+    td[data-col='editornotes']:before { content: "Ed. Notes"; }
+    td[data-col='tags']:before { content: "Tags"; }
+    td[data-col='notes']:before { content: "Status Notes"; }
+    td[data-col='runtime']:before { content: "Runtime Info"; }
+    td[data-col='priority']:before { content: "Priority"; }
+    td[data-col='answer']:before { content: "Answer"; }
+    td[data-col='commenter']:before { content: "Last Commenter"; }
+    td[data-col='comment']:before { content: "Last Comment"; }
+    td[data-col='statuschange']:before { content: "Last Status cxg"; }
+    td[data-col='authors']:before { content: "Authors"; }
+    td[data-col='editors']:before { content: "Discussion Eds."; }
+    td[data-col='editorsneeded']:before { content: "D.Eds Needed"; }
+    td[data-col='approvers']:before { content: "Approval Eds."; }
+    td[data-col='approvals']:before { content: "Approvals"; }
+    td[data-col='numtesters']:before { content: "# Testers"; }
+    td[data-col='numcurtesters']:before { content: "# Curr Testers"; }
+    td[data-col='testers']:before { content: "Testers"; }
+    td[data-col='lasttest']:before { content: "Last Test Report"; }
+    td[data-col='testsolvereqs']:before { content: "Testsolve Reqs"; }
+    td[data-col='finallinks']:before { content: "Final Links"; }
+
+}
+	
 }
 
 .puzzideasummary { background-color: #000000; }
@@ -228,93 +304,44 @@ td.TestsolverComment { background-color: #FFFFFF; }
 td.TestingAdminComment { background-color: #B4E0E0; }
 td.FactcheckerComment { background-color: #B4D8C8; }
 
+.puzzle-stats-section { display: table; width: 100%; }
+.puzzle-stats-row { display: table-row; }
+.stats-block { display: table-cell; margin: 0; }
+
+@media(max-width: 920px) {
+.puzzle-stats-section { display: block; }
+.puzzle-stats-row { display: block; }
+.stats-block { display: inline-block; vertical-align: top; margin-right: -4px;}
+}
+
+.stats-block td, .stats-block th {
+    border: none;
+    padding-bottom: 0.1em;
+    padding-top: 0.1em;
+}
+
 td.stats {
     padding: 0em 0em 0em 0em;
 }
 
-th.puzz-stats, td.puzz-stats {
+.puzz-stats {
     background-color: #E0B4BD;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
-th.approval-ed-stats, td.approval-ed-stats {
+.approval-ed-stats {
     background-color: #B4C1E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
-th.discussion-ed-stats, td.discussion-ed-stats {
+.discussion-ed-stats {
     background-color: #E4C4BA;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
-th.p-stats, td.p-stats {
+.p-stats {
     background-color: #E0E0B4;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
-th.t-stats, td.t-stats {
-    background-color: #B4E0E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-th.answer-stats, td.answer-stats {
+.answer-stats {
     background-color: #EFE0E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-
-th.complete-stats, td.complete-stats {
-    background-color: #B4C1E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.2em;
-}
-
-th.testing-stats, td.testing-stats {
-    background-color: #B4E0E0;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.2em;
-}
-
-th.writing-stats, td.writing-stats {
-    background-color: #E0E0B4;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-th.pending-stats, td.pending-stats {
-    background-color: #E0B4BD;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-th.dead-stats, td.dead-stats {
-    background-color: #EFEFEF;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
-}
-
-th.admin-stats, td.admin-stats {
-    background-color: #EFEFEF;
-    border: none;
-    padding-bottom: 0.1em;
-    padding-top: 0.1em;
 }
 
 .team-updates {
@@ -419,11 +446,15 @@ td.sd {
     margin-bottom: 15px;
 }
 
-table.boxed { border: 3px solid black; }
+div.boxed { border: 3px solid black; padding: 5px; display: inline-block; }
+div.boxed textarea, div.boxed input { display: block; }
 .puzzledesc { padding: 5px; background-color: #F0E8E0; margin-bottom: 5px; }
 .small { font-size: 75%; }
-input.longin { width: 40em; }
+input.longin { width: 40em; max-width: 100%; }
 input.shortin { width: 3em; }
+textarea.desc { width: 50em; height: 25em; max-width: 100%; }
+textarea.comment { width: 50em; height: 15em; max-width: 100%; }
+textarea.motd { width: 75ex; height: 10em; max-width: 100%; }
 .testdesc { vertical-align:middle;background-color: #A9D7FF; padding: 5px; display: inline-block; }
 .testempty { vertical-align:middle;background-color: #CCC; padding: 5px; display: inline-block; font-style: italic; color: #666; }
 .testdata { vertical-align:middle;background-color: #FAD97D; padding: 5px; display: inline-block;}

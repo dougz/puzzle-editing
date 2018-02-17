@@ -8,3 +8,4 @@ vendor
 composer.phar
 /tmp/sess_*
 .DS_Store
+/ansible/initialize-vagrant.retry
