@@ -1179,7 +1179,7 @@ function displayComments($uid, $pid, $lastVisit) {
         } else {
             echo 'Testsolver '.substr(md5(strval($pid).strval($user)), 0, 8);
         }
-        echo " &bull; $type <small>(Comment #$id)</small> &bull; $timestamp<br />\n";
+        echo " &bull; $type &bull; $timestamp <small>(Comment #$id)</small><br />\n";
 
 // TODO: Is this really the best we can do? Markdown, anyone?
         $pcomment = preg_replace('#(\A|[^=\]\'"a-zA-Z0-9])(http[s]?://(.+?)/[^()<>\s]*)#i', '\\1<a href="\\2" target="_blank">\\2</a>', ($comment['comment']));
