@@ -1168,11 +1168,12 @@ function displayComments($uid, $pid, $lastVisit) {
         } else {
             $name = getUserName($user);
         }
+
+        $commentDivClasses = "comment $type" . "Comment";
         if ($lastVisit == NULL || strtotime($lastVisit) < strtotime($timestamp)) {
-            echo "<div class='comment-new' id='comm$id'>\n";
-        } else {
-            echo "<div class='comment $type" . "Comment' id='comm$id'>\n";
+            $commentDivClasses = $commentDivClasses . " comment-new";
         }
+        echo "<div class='$commentDivClasses' id='comm$id'>\n";
 
         if ($type == 'Testsolver' || canSeeTesters($uid, $pid)) {
             echo $name;

@@ -178,6 +178,11 @@ tr.comment-new {
     text-align: left;
 }
 
+div.comment-new {
+    border-top: solid 2px;
+    border-bottom: solid 2px;
+}
+
 tr.puzz_head {
     border-top: solid 1px;
     border-bottom: solid 1px;
