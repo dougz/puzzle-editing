@@ -159,9 +159,10 @@ div.navr { float: right; }
 }
 
 tr.people, div.comment, tr.puzz, tr.puzz-new, tr.puzz-flag {
-    border-top: solid 1px;
     border-bottom: solid 1px;
     text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 tr.test-old {
@@ -291,18 +292,25 @@ td.p_info {
 
 td.summ { width: 150px; }
 
-.comment td { word-break: break-word; }
-td.AuthorComment { background-color:#E0B4BD; }
-td.EditorComment { background-color:#B4C1E0; }
-td.ApproverComment { background-color:#22D0E0; }
-td.DirectorComment { background-color:#FF8F8F; }
-td.EICComment { background-color:#D0ADFF; }
-td.CohesionComment { background-color:#ADF2FF; }
-td.ServerComment { background-color:#E0E0B4; }
-td.LurkerComment { background-color:#B4D8C8; }
-td.TestsolverComment { background-color: #FFFFFF; }
-td.TestingAdminComment { background-color: #B4E0E0; }
-td.FactcheckerComment { background-color: #B4D8C8; }
+.comment {
+    word-break: break-word;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+div.comment-text {
+    margin-top: 0.5em;
+}
+div.AuthorComment { background-color:#E0B4BD; }
+div.EditorComment { background-color:#B4C1E0; }
+div.ApproverComment { background-color:#22D0E0; }
+div.DirectorComment { background-color:#FF8F8F; }
+div.EICComment { background-color:#D0ADFF; }
+div.CohesionComment { background-color:#ADF2FF; }
+div.ServerComment { background-color:#E0E0B4; }
+div.LurkerComment { background-color:#B4D8C8; }
+div.TestsolverComment { background-color: #FFFFFF; }
+div.TestingAdminComment { background-color: #B4E0E0; }
+div.FactcheckerComment { background-color: #B4D8C8; }
 
 .puzzle-stats-section { display: table; width: 100%; }
 .puzzle-stats-row { display: table-row; }
@@ -390,7 +398,10 @@ td.fileInfoOld { padding: 0.25em 1em 0em 0em; }
 
 .changeLink { font-size: 75%; }
 
-div.comments { padding-top: 2em; }
+div.comments {
+    border-top: solid 1px;
+    margin-top: 2em;
+}
 
 div.killpuzzle {
     color: #FF0000;

@@ -196,11 +196,11 @@ displayKillPuzzle($uid, $pid);
 echo "</div>";
 
 // Display & add comments
-echo "<div class='comments'>";
+echo "<div class='comments'>\n";
 displayComments($uid, $pid, $lastVisit);
 addCommentForm($uid, $pid);
 emailSubButton($uid, $pid);
-echo "</div>";
+echo "</div>\n";
 
 // End HTML
 foot();
@@ -1169,32 +1169,26 @@ function displayComments($uid, $pid, $lastVisit) {
             $name = getUserName($user);
         }
         if ($lastVisit == NULL || strtotime($lastVisit) < strtotime($timestamp)) {
-            echo "<div class='comment-new' id='comm$id'>";
+            echo "<div class='comment-new' id='comm$id'>\n";
         } else {
-            echo "<div class='comment' id='comm$id'>";
+            echo "<div class='comment $type" . "Comment' id='comm$id'>\n";
         }
 
-        echo "<div class='$type" . "Comment'>";
-
-        if ($type == 'Testsolver') {
-            if (canSeeTesters($uid, $pid)) {
-                echo $name . '<br />';
-            }
-            echo 'Testsolver '.substr(md5(strval($pid).strval($user)), 0, 8);
-        } else {
+        if ($type == 'Testsolver' || canSeeTesters($uid, $pid)) {
             echo $name;
+        } else {
+            echo 'Testsolver '.substr(md5(strval($pid).strval($user)), 0, 8);
         }
-        echo "<br />$timestamp<br />$type <small>(Comment #$id)</small>";
-        echo "<div class='$type" . "Comment'>";
+        echo " &bull; $type <small>(Comment #$id)</small> &bull; $timestamp<br />\n";
 
 // TODO: Is this really the best we can do? Markdown, anyone?
         $pcomment = preg_replace('#(\A|[^=\]\'"a-zA-Z0-9])(http[s]?://(.+?)/[^()<>\s]*)#i', '\\1<a href="\\2" target="_blank">\\2</a>', ($comment['comment']));
         if (USING_AWS) {
             $pcomment = str_replace("=\"uploads/", "=\"" . AWS_ENDPOINT . AWS_BUCKET . "/uploads/", $pcomment);
         }
+        echo "<div class='comment-text'>\n";
         echo nl2br2($pcomment);
-        echo '</div>';
-        echo '</div>';
+        echo "\n</div>\n</div>\n";
     }
 }
 
