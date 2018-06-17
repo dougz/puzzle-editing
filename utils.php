@@ -3762,9 +3762,9 @@ function setPuzzleTestTeam($pid, $tid) {
 }
 
 function markUnseen($uid, $pid) {
-    $sql = sprintf("INSERT INTO visitor_links (pid, uid, date) VALUES ('%s', '%s', 'NULL')
-        ON DUPLICATE KEY UPDATE date='NULL'", mysql_real_escape_string($pid),
-            mysql_real_escape_string($uid));
+    $sql = sprintf("DELETE FROM visitor_links WHERE pid = '%s' AND uid = '%s'",
+                   mysql_real_escape_string($pid),
+                   mysql_real_escape_string($uid));
     query_db($sql);
 }
 
