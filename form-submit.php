@@ -72,14 +72,12 @@ if (isset($_POST['changeAuthors'])) {
 
     if (isset($_POST['addAuth'])) {
         $add = $_POST['addAuth'];
-        subscribe($uid, $pid);
     } else {
         $add = NULL;
     }
 
     if (isset($_POST['removeAuth'])) {
         $remove = $_POST['removeAuth'];
-        unsubscribe($uid, $pid);
     } else {
         $remove = NULL;
     }
@@ -129,17 +127,11 @@ if (isset($_POST['changeEditors'])) {
 
     if (isset($_POST['addEditor'])) {
         $add = $_POST['addEditor'];
-        if (hasEditorAutosubscribe($uid)) {
-            subscribe($uid, $pid);
-        }
     } else {
         $add = NULL;
     }
     if (isset($_POST['removeEditor'])) {
         $remove = $_POST['removeEditor'];
-        if (hasEditorAutosubscribe($uid)) {
-            unsubscribe($uid, $pid);
-        }
     } else {
         $remove = NULL;
     }
@@ -154,17 +146,11 @@ if (isset($_POST['changeApprovers'])) {
 
     if (isset($_POST['addApprover'])) {
         $add = $_POST['addApprover'];
-        if (hasEditorAutosubscribe($uid)) {
-            subscribe($uid, $pid);
-        }
     } else {
         $add = NULL;
     }
     if (isset($_POST['removeApprover'])) {
         $remove = $_POST['removeApprover'];
-        if (hasEditorAutosubscribe($uid)) {
-            unsubscribe($uid, $pid);
-        }
     } else {
         $remove = NULL;
     }
@@ -425,9 +411,6 @@ if (isset($_POST['getPuzz'])) {
 
     if ($pid && isEditorAvailable($uid, $pid)) {
         addPuzzleToEditorQueue($uid, $pid);
-        if (hasEditorAutosubscribe($uid)) {
-            subscribe($uid, $pid);
-        }
     } else {
         $_SESSION['failedToAdd'] = TRUE;
         $_SESSION['failedToAddEdit'] = TRUE;

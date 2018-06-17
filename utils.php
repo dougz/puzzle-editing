@@ -1678,7 +1678,7 @@ function addAuthors($uid, $pid, $add) {
             utilsError(getUserName($auth) . ' is not available.');
         }
 
-        // Add answer to puzzle
+        // Add author to puzzle
         $sql = sprintf("INSERT INTO author_links (pid, uid) VALUE ('%s', '%s')",
             mysql_real_escape_string($pid), mysql_real_escape_string($auth));
         query_db($sql);
@@ -1741,6 +1741,8 @@ function removeAuthors($uid, $pid, $remove) {
         $message = "$name removed you as an author on $title (puzzle $pid).";
         $link = URL . "/author.php";
         sendEmail($auth, $subject, $message, $link);
+
+        unsubscribe($auth, $pid);
     }
 
     $comment .= ' as author';
@@ -1981,6 +1983,10 @@ function removeEditors($uid, $pid, $remove) {
         $message = "$name removed you as a discussion editor on $title (puzzle $pid).";
         $link = URL . "/editor.php";
         sendEmail($editor, $subject, $message, $link);
+
+        if (hasEditorAutosubscribe($editor)) {
+            unsubscribe($editor, $pid);
+        }
     }
 
     $comment .= ' as discussion editor';
@@ -2093,6 +2099,10 @@ function removeApprovers($uid, $pid, $remove) {
         $message = "$name removed you as an approval on $title (puzzle $pid).";
         $link = URL . "/editor.php";
         sendEmail($approver, $subject, $message, $link);
+
+        if (hasEditorAutosubscribe($approver)) {
+            unsubscribe($approver, $pid);
+        }
     }
 
     $comment .= ' as approval editor';
