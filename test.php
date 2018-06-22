@@ -259,6 +259,11 @@ function displayFeedbackForm($uid, $pid) {
                                 return false;
                         }
 
+                        // Don't require fun/difficulty ratings before the solver is finished.
+                        if ($('input[name=done]:checked').val() === 'yes') {
+                                return true;
+                        }
+
                         var missing = [];
                         if ($('select[name=fun]').val() == '0') {
                                 missing.push('fun');
