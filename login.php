@@ -44,11 +44,6 @@ function loginForm() {
     <strong>You need to <a href="register.php">register for puzzletron</a> before you can use it.</strong>
 
     <form method="post" action="<?php echo SELF; ?>">
-        <input type="hidden" id="tzoffsetminutes" name="tzoffsetminutes" value="0" />
-        <script>
-          var tzOffsetMinutes = new Date().getTimezoneOffset();
-          $("#tzoffsetminutes").val(tzOffsetMinutes);
-        </script>
         <table>
             <tr>
                 <td>Username:</td>
@@ -95,18 +90,6 @@ function login($username, $pass) {
     // Store uid in SESSION
     $_SESSION['uid'] = $uid;
     $_SESSION['SITEURL'] = URL;
-
-    // Store timezone offset in SESSION
-    if (isset($_POST['tzoffsetminutes'])) {
-      $tzOffsetMinutes = intval($_POST['tzoffsetminutes']);
-      $tzOffsetHours = -$tzOffsetMinutes / 60;
-      $tzOffsetMinutes = abs($tzOffsetMinutes % 60);
-      $tzOffsetString = sprintf("%d:%02d", $tzOffsetHours, $tzOffsetMinutes);
-      if ($tzOffsetHours >= 0) {
-        $tzOffsetString = "+" . $tzOffsetString;
-      }
-      $_SESSION['tz_offset'] = $tzOffsetString;
-    }
 
     if (isset($_SESSION['redirect_to'])) {
         header("Location: " . $_SESSION['redirect_to']);

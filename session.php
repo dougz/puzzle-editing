@@ -60,11 +60,3 @@ session_set_save_handler(
 );
 
 session_start();
-
-if (isset($_SESSION['tz_offset'])) {
-    if (mysql_query('SET time_zone = "' . $_SESSION['tz_offset'] . '";') == FALSE) {
-        echo '<div class="errormsg">Could not set time zone.</div>';
-        foot();
-        exit(1);
-    }
-}
