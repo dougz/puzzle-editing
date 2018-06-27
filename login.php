@@ -101,7 +101,11 @@ function login($username, $pass) {
       $tzOffsetMinutes = intval($_POST['tzoffsetminutes']);
       $tzOffsetHours = -$tzOffsetMinutes / 60;
       $tzOffsetMinutes = abs($tzOffsetMinutes % 60);
-      $_SESSION['tz_offset'] = sprintf("%d:%02d", $tzOffsetHours, $tzOffsetMinutes);
+      $tzOffsetString = sprintf("%d:%02d", $tzOffsetHours, $tzOffsetMinutes);
+      if ($tzOffsetHours >= 0) {
+        $tzOffsetString = "+" . $tzOffsetString;
+      }
+      $_SESSION['tz_offset'] = $tzOffsetString;
     }
 
     if (isset($_SESSION['redirect_to'])) {
