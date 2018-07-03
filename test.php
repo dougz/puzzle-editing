@@ -115,7 +115,6 @@ function displayTestingConfirmation($uid, $pid) {
     <div class="testwarning">
         <h2>You're about to testsolve</h2>
         <p>Puzzle: <?php echo $title ?></p>
-        <p>Summary: <?php echo $summary ?></p>
         <ul>
             <li>You should only click the button to start testsolving if you're planning to testsolve <strong>RIGHT NOW</strong>.</li>
             <li>Clicking on the button below will mark you as a testsolver on this puzzle and may remove it from the list of available puzzles.  You may need to share the link with any co-solvers so that they can access the puzzle and be marked as testsolvers too.</li>
