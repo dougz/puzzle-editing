@@ -127,7 +127,7 @@ displayPuzzleStats($uid);
 $puzzles = getAllPuzzles();
 $uid = isLoggedIn();
 echo "(Hiding dead puzzles by default)<br><br>";
-displayQueue($uid, $puzzles, "notes answer summary editornotes tags authorsandeditors currentpuzzletestercount", FALSE, $filt);
+displayQueue($uid, $puzzles, "notes answer summary editornotes funanddifficulty tags authorsandeditors currentpuzzletestercount", FALSE, $filt);
 
 // End HTML
 foot();

@@ -242,6 +242,7 @@ function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLin
     $showTesters = in_array("testers", $fields);
     $showCurrentPuzzleTesterCount = in_array("currentpuzzletestercount", $fields);
     $showFinalLinks = in_array("finallinks", $fields);
+    $showFunAndDifficulty = in_array("funanddifficulty", $fields);
     if (!$puzzles) {
         echo "<span class='emptylist'>No puzzles to list</span><br/>";
         return;
@@ -266,6 +267,8 @@ function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLin
             <?php if ($showNotes) {echo '<th>Status Notes</th>';} ?>
             <?php if ($showNotes) {echo '<th>Runtime Info</th>';} ?>
             <?php if ($showNotes) {echo '<th>Priority</th>';} ?>
+            <?php if ($showFunAndDifficulty) {echo '<th>Median Fun</th>';} ?>
+            <?php if ($showFunAndDifficulty) {echo '<th>Median Difficulty</th>';} ?>
             <?php if ($showAnswer) {echo '<th>Answer</th>';} ?>
             <?php if (!$test) { echo '<th>Last Commenter</th>';} ?>
             <?php if (!$test) { echo '<th>Last Comment</th>';}?>
@@ -354,6 +357,8 @@ function displayQueue($uid, $puzzles, $fields, $test, $filter = array(), $addLin
         <?php if ($showNotes) {displayCell('notes', $puzzleInfo["notes"]);} ?>
         <?php if ($showNotes) {displayCell('runtime', $puzzleInfo["runtime_info"]);} ?>
         <?php if ($showNotes) {displayCell('priority', getPriorityWord($puzzleInfo["priority"]));} ?>
+        <?php if ($showFunAndDifficulty) {displayCell('medianfun', getMedianFeedback($pid, 'fun'));} ?>
+        <?php if ($showFunAndDifficulty) {displayCell('mediandifficulty', getMedianFeedback($pid, 'difficulty'));} ?>
 <?php
         if ($showAnswer) {
 	    displayCell('answer', getAnswersForPuzzleAsList($pid), getAnswersForPuzzleAsList($pid) != "");
