@@ -249,6 +249,8 @@ tr.puzz-flag { background-color: #fdd; }
     td[data-col='notes']:before { content: "Status Notes"; }
     td[data-col='runtime']:before { content: "Runtime Info"; }
     td[data-col='priority']:before { content: "Priority"; }
+    td[data-col='medianfun']:before { content: "Median Fun"; }
+    td[data-col='mediandifficulty']:before { content: "Med. Difficulty"; }
     td[data-col='answer']:before { content: "Answer"; }
     td[data-col='commenter']:before { content: "Last Commenter"; }
     td[data-col='comment']:before { content: "Last Comment"; }
