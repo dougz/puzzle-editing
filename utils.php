@@ -2956,6 +2956,16 @@ function getActiveDoneTestingPuzzlesForUser($uid) {
     return $active;
 }
 
+function sortByPuzzleId($puzzles) {
+    $sorted = array();
+    foreach ($puzzles as $pid) {
+        $sorted[$pid] = $pid;
+    }
+
+    asort($sorted);
+    return array_keys($sorted);
+}
+
 function sortByLastCommentDate($puzzles) {
     $sorted = array();
     foreach ($puzzles as $pid) {
@@ -3212,7 +3222,7 @@ function getMostRecentDraftNameForPuzzle($pid) {
 function getAllPuzzles() {
     $sql = "SELECT id FROM puzzles";
     $puzzles = get_elements($sql);
-    return sortByLastCommentDate($puzzles);
+    return sortByPuzzleId($puzzles);
 }
 function getAllLivePuzzles() {
     $deadpuzzleid = getDeadStatusId();
