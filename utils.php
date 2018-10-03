@@ -9,6 +9,8 @@ use Aws\S3\S3Client;
 function getHtmlPurifier() {
     $config = HTMLPurifier_Config::createDefault();
     $config->set('Cache.SerializerPath', HTMLPURIFIER_CACHE_PATH);
+    $config->set('HTML.AllowedAttributes', array('a.target', 'a.href'));
+    $config->set('Attr.AllowedFrameTargets', array('_blank'));
     return new HTMLPurifier($config);
 }
 
